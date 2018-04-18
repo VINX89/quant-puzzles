@@ -5,19 +5,23 @@ sys.path.append("../python")
 
 from maze_utils import Maze
 
-import logging
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+normal = [[0, 0, 0, 0, 0, 1],
+          [1, 1, 0, 0, 0, 1],
+          [0, 0, 0, 1, 0, 0],
+          [0, 1, 1, 0, 0, 1],
+          [0, 1, 0, 0, 1, 0],
+          [0, 1, 0, 1, 0, 0],
+          [0, 1, 0, 0, 0, 0] ]
 
-normal = [ [0, 1, 0, 0, 1],
-           [0, 0, 0, 0, 0],
-           [0, 1, 1, 0, 1],
-           [0, 1, 0, 0, 0] ]
+impossible = [[0, 0, 0, 0, 0, 1],
+              [1, 1, 0, 0, 0, 1],
+              [0, 0, 0, 1, 0, 0],
+              [0, 1, 1, 0, 0, 1],
+              [0, 1, 0, 0, 1, 0],
+              [0, 1, 0, 1, 0, 0],
+              [0, 1, 0, 0, 1, 0] ]
 
-impossible = [ [0, 1, 0, 0],
-               [0, 1, 1, 1],
-               [0, 0, 1, 0] ]
-
-def solve_maze(maze, start=None, end=None):    
+def solve_maze(maze, start=None, end=None, output='maze.pdf'):    
     print "Input maze:"
     print maze
     the_maze = Maze(maze, start, end)
@@ -26,8 +30,8 @@ def solve_maze(maze, start=None, end=None):
     print path
     print "Lenght of path:"
     print pathlen
-
+    the_maze.plot_maze(output)
 
 if __name__ == "__main__":
-    solve_maze(normal)
-    solve_maze(impossible)
+    solve_maze(normal, output='normal.pdf')
+    solve_maze(impossible, output='impossible.pdf')

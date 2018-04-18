@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import heapq
 import numpy as np
+from matplotlib.colors import ListedColormap
+import matplotlib.pyplot as plt
+import copy
 
 class MazeCell(object):
     def __init__(self, x, y, iswall):
@@ -56,6 +59,8 @@ class Maze(object):
         @param start grid starting point x,y tuple.
         @param end grid ending point x,y tuple.
         """
+        self.maze = maze
+        self.path = None
         # check maze (shape and consistency)
         if len(np.shape(maze)) != 2:
             raise ValueError("The input maze has to be 2-dimensional")
@@ -148,6 +153,30 @@ class Maze(object):
         adj.parent = cell
         adj.f = adj.h + adj.g
 
+    def plot_maze(self, output='maze.pdf'):
+        """Plot maze
+        @param output output file name
+        Legend:
+        -white: empty cells
+        -black: walls
+        -green: path (if defined)
+        """
+        cmap = ListedColormap(['w', 'k'])
+        mazeplot = copy.deepcopy(self.maze)
+        if self.path:
+            cmap = ListedColormap(['w', 'k', 'g'])
+            #Add path
+            for p in self.path:
+                mazeplot[p[1]][p[0]] = 2
+        #Make plot
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        _ = ax.matshow(mazeplot,cmap=cmap)
+        #Add start/end
+        ax.text(self.start.x, self.start.y, "START", color='black', ha='center', va='center')
+        ax.text(self.end.x, self.end.y, "END", color='black', ha='center', va='center')
+        fig.savefig(output)
+
     def solve(self):
         """Solve maze, find path to ending cell.
         @returns path (or None if not found) and its lenght
@@ -161,9 +190,9 @@ class Maze(object):
             self.closed.add(cell)
             # if ending cell, return found path
             if cell is self.end:
-                path = self.get_path()
-                pathlen = np.shape(path)[0]
-                return path, pathlen
+                self.path = self.get_path()
+                pathlen = np.shape(self.path)[0]
+                return self.path, pathlen
             # get adjacent cells for cell
             adj_cells = self.get_adjacent_cells(cell)
             for adj_cell in adj_cells:
