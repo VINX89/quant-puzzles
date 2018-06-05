@@ -24,9 +24,10 @@ def karatsuba(x, y, debug=False):
     So, only 3 iterative multiplications are needed, namely
     for ac, bd and (a+b)(c+d)
 
-    @param x first number (as string)
-    @param y second number (as string)
-    @returns the product xy (as string)
+    @param x first number (string)
+    @param y second number (string)
+    @param debug print intermediate calculations (boolean)
+    @returns the product xy (string)
     '''
     
     n_2 = len( str(min(int(x),int(y))) ) / 2
