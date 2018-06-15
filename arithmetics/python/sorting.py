@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import math
+from math import floor
+from random import randint
 
 def split(x, n):
     """Given an input array,
@@ -12,7 +13,7 @@ def split(x, n):
     @param n number of elements to put in the first subarray
     @returns the two subarrays (as lists)
     """
-    n_left = int(math.floor(n))
+    n_left = int(floor(n))
     x_left = x[:n_left]
     x_right = x[n_left:]
     return x_left, x_right
@@ -79,4 +80,50 @@ def count_inversions(x):
     _, inv_split = merge_sort(x)
     
     return inv_left + inv_right + inv_split
+
+def select_pivot(x, left, right, strategy=1):
     
+    if strategy==1:
+        idx = randint(left, right)
+        x[left], x[idx] = x[idx], x[left]
+        return x[left], left
+    elif strategy==2:
+        return x[left], left
+    elif strategy==3:
+        x[left], x[right] = x[right], x[left]
+        return x[left], left
+    else:
+        raise ValueError("The strategy code must be in [1,3]")
+
+def partition(x, left, right, strategy=1):
+    
+    pivot, p = select_pivot(x, left=left, right=right, strategy=strategy) 
+    i = p+1
+    
+    for j in range(p+1, right+1):
+        if x[j] < pivot:
+            x[j], x[i] = x[i], x[j]
+            i += 1
+    x[left], x[i-1] = x[i-1], x[left]
+
+    return i-1 
+
+def quick_sort(x, n_comp, left=None, right=None, strategy=1):
+    
+    if left==None and right==None:
+        n=len(x)
+        l=0
+        r=n-1
+    else:
+        l=left
+        r=right
+        n=r-l+1
+
+    if n<2:
+        return
+    
+    p = partition(x, left=l, right=r, strategy=strategy)
+    n_comp[0] += n_comp[0]+r-l-2 #r-p-1 - (p-1-l)
+
+    quick_sort(x, n_comp, left=l, right=p-1, strategy=strategy)
+    quick_sort(x, n_comp, left=p+1, right=r, strategy=strategy)
