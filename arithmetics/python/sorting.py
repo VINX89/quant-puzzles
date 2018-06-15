@@ -81,6 +81,23 @@ def count_inversions(x):
     
     return inv_left + inv_right + inv_split
 
+def get_median(a,b,c):
+    if a<=b:
+        if c<=a:
+            return a
+        elif c>=a and c<=b:
+            return c
+        else:
+            return b
+    else:
+        if c<=b:
+            return b
+        elif c>=b and c<=a:
+            return c
+        else:
+            return a
+            
+
 def select_pivot(x, left, right, strategy=1):
     
     if strategy==1:
@@ -92,8 +109,15 @@ def select_pivot(x, left, right, strategy=1):
     elif strategy==3:
         x[left], x[right] = x[right], x[left]
         return x[left], left
+    elif strategy==4:
+        low = x[left]
+        hi = x[right]
+        mid = x[int(floor(left-right+1)/2)]
+        idx = get_median(low,mid,hi)
+        x[left], x[idx] = x[idx], x[left]
+        return x[left], left
     else:
-        raise ValueError("The strategy code must be in [1,3]")
+        raise ValueError("The strategy code must be in [1,4]")
 
 def partition(x, left, right, strategy=1):
     
