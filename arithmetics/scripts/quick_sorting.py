@@ -5,8 +5,8 @@ sys.path.append("../python")
 from sorting import quick_sort
 
 if __name__ == "__main__":
-
-    dummy1 = [3,2,4,1,5,8,6,9,7,0,12,11,10]
+    
+    dummy1 = [2, 20, 1, 15, 3, 11, 13, 6, 16, 10, 19, 5, 4, 9, 8, 14, 18, 17, 7, 12]
     n_comp1 = [0]
     print "Dummy check 1: sort"
     print dummy1
@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print "(number of comparisons = %d)" % n_comp1[0]
     print ""
 
-    dummy2 = [3,2,4,1,5,8,6,9,7,0,12,11,10]
+    dummy2 = [2, 20, 1, 15, 3, 11, 13, 6, 16, 10, 19, 5, 4, 9, 8, 14, 18, 17, 7, 12]
     n_comp2 = [0]
     print "Dummy check 2: sort"
     print dummy2
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     print "(number of comparisons = %d)" % n_comp2[0]
     print ""
 
-    dummy3 = [3,2,4,1,5,8,6,9,7,0,12,11,10]
+    dummy3 = [2, 20, 1, 15, 3, 11, 13, 6, 16, 10, 19, 5, 4, 9, 8, 14, 18, 17, 7, 12]
     n_comp3 = [0]
     print "Dummy check 3: sort"
     print dummy3
@@ -35,8 +35,8 @@ if __name__ == "__main__":
     print dummy3
     print "(number of comparisons = %d)" % n_comp3[0]
     print ""
-
-    dummy4 = [3,2,4,1,5,8,6,9,7,0,12,11,10]
+    
+    dummy4 = [2, 20, 1, 15, 3, 11, 13, 6, 16, 10, 19, 5, 4, 9, 8, 14, 18, 17, 7, 12] 
     n_comp4 = [0]
     print "Dummy check 4: sort"
     print dummy4
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     print dummy4
     print "(number of comparisons = %d)" % n_comp4[0]
     print ""
-
+    
     data1 = []
     with open("../data/QuickSort.txt","r") as file:
         for line in file:

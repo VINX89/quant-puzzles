@@ -34,5 +34,5 @@ def solve_maze(maze, start=None, end=None, output='maze.pdf'):
     the_maze.plot_maze(output)
 
 if __name__ == "__main__":
-    solve_maze(normal, output='normal.pdf')
-    solve_maze(impossible, output='impossible.pdf')
+    solve_maze(normal, output='normal.png')
+    solve_maze(impossible, output='impossible.png')

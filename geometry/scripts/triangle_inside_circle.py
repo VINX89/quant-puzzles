@@ -69,7 +69,8 @@ def two_points_in_circle(samples=10000000, seed=42):
     the side of the equilateral triangle inscribed in the circle
 
     @param samples number of samples for the Monte Carlo generation                                                                            
-    @param seed seed for the Monte Carlo generation                                                                                                              @return array with length of generated chords
+    @param seed seed for the Monte Carlo generation                                                                                                              
+    @return array with length of generated chords
     """
     print "Generate chords by selecting random pairs of points inside circle with equilateral triangle inscribed..."
     #Set seed

@@ -81,25 +81,46 @@ def count_inversions(x):
     
     return inv_left + inv_right + inv_split
 
-def get_median(a,b,c):
+def get_median(a,a_idx,b,b_idx,c,c_idx):
+    """Get median of three numbers
+    @param {a,b,c} {first,second,third} number
+    @param {a_idx,b_idx,c_idx} position of {first,second,third} number in the array
+    @return the index of the number corresponding to the median
+    """
+
     if a<=b:
         if c<=a:
-            return a
+            return a_idx
         elif c>=a and c<=b:
-            return c
+            return c_idx
         else:
-            return b
+            return b_idx
     else:
         if c<=b:
-            return b
+            return b_idx
         elif c>=b and c<=a:
-            return c
+            return c_idx
         else:
-            return a
+            return a_idx
             
 
 def select_pivot(x, left, right, strategy=1):
+    """Choose a 'pivot' for the partition
+    routine implemented by the QuickSort algorithm.
     
+    @param x input array (list)
+    @param left starting position of the sequence to be partitioned
+    @param right ending position of the sequence to be partitioned
+    @param strategy code that identifies the strategy to choose the pivot:
+           1 -> take a random pivot (default)
+           2 -> take the first element on the left
+           3 -> take the last element on the right
+           4 -> take the median between first, middle and right elements
+           for all the strategies other than 2, the chosen pivot is 
+           swapped with the first element on the left as preprocessing step
+    @return pivot and its (final) position
+    """
+
     if strategy==1:
         idx = randint(left, right)
         x[left], x[idx] = x[idx], x[left]
@@ -112,15 +133,23 @@ def select_pivot(x, left, right, strategy=1):
     elif strategy==4:
         low = x[left]
         hi = x[right]
-        mid = x[int(floor(left-right+1)/2)]
-        idx = get_median(low,mid,hi)
-        x[left], x[idx] = x[idx], x[left]
+        mid_idx = left + int(floor(right-left)/2)
+        mid = x[mid_idx]
+        median_idx = get_median(low,left,mid,mid_idx,hi,right)
+        x[left], x[median_idx] = x[median_idx], x[left]
         return x[left], left
     else:
         raise ValueError("The strategy code must be in [1,4]")
 
 def partition(x, left, right, strategy=1):
-    
+    """Partition a sequence according to a given pivot.
+    @param x input array (list)
+    @param left starting position of the sequence to be partitioned
+    @param right ending position of the sequence to be partitioned
+    @param strategy see select_pivot for the details
+    @return (final) position of the pivot after the partition
+    """
+
     pivot, p = select_pivot(x, left=left, right=right, strategy=strategy) 
     i = p+1
     
@@ -133,7 +162,20 @@ def partition(x, left, right, strategy=1):
     return i-1 
 
 def quick_sort(x, n_comp, left=None, right=None, strategy=1):
-    
+    """Implement the QuickSort algorithm to sort array,
+    having an average speed of O(n*logn).
+    The sorting in made in-place (no copies of the input array are produced)
+    @param x input array to sort (list)
+    @param n_comp counter that keeps track of the number of 'comparisons'
+           between the 'pivot' and the other elements during
+           the 'partitioning' of the array. It has to be a 
+           size-one list initialised to zero (e.g. n_comp = [0]) in order to be passed
+           by reference (the C++ equivalent would be int n_comp; &n_comp)
+    @param left starting position of the sequence to be partitioned (default=None, take first element)
+    @param right ending position of the sequence to be partitioned (default=None, take last element)
+    @strategy see select_pivot function for more details
+    """
+
     if left==None and right==None:
         n=len(x)
         l=0
@@ -147,7 +189,7 @@ def quick_sort(x, n_comp, left=None, right=None, strategy=1):
         return
     
     p = partition(x, left=l, right=r, strategy=strategy)
-    n_comp[0] += n_comp[0]+r-l-2 #r-p-1 - (p-1-l)
+    n_comp[0] += r-l
 
     quick_sort(x, n_comp, left=l, right=p-1, strategy=strategy)
     quick_sort(x, n_comp, left=p+1, right=r, strategy=strategy)
