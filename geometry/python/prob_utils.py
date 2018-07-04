@@ -9,7 +9,7 @@ def get_binomial_prob(passed, trials, verbose=True):
            successful (True) or not (False)
     @param trials number of trials
     @param verbose print probability and uncertainty
-    @return values prob, prob_err (probability and its uncertainty
+    @return values prob, prob_err (probability and its uncertainty)
     """
     success = float( np.sum( map(int, passed) ) )
     prob = success / float(trials)
